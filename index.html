@@ -1,0 +1,298 @@
+﻿<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Covid-19 NYC</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="images/logo.png" alt="" /></span>
+						<h1>Analysis of Covid-19 Positive Rate in NYC</h1>
+						<p>
+							Find possible explanations for large variation of positive Covid rates among different areas in New York City.
+						</p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#intro" class="active">Introduction</a></li>
+							<li><a href="#data">Data Aquisition</a></li>
+							<li><a href="#exploratory">Demographic Analysis</a></li>
+							<li><a href="#clustering">Venue Type Analysis</a></li>
+							<li><a href="#conclustion">Conclusion</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+						<section id="intro" class="main">
+							<div class="spotlight">
+								<div class="content">
+									<header class="major">
+										<h2>Introduction</h2>
+									</header>
+									<p>
+										Positive Covid rates vary greatly among different areas in New York City(Figure 1). The variation cannot be explained easily by looking at map. With demographic data together with business venue type information, I learned how these features are related to the cumulative Covid positive rate in the area.
+									</p>
+									<figure align="center">
+										<iframe src='images/nyc_covid_map.html' width='80%' height='500px' title='Covid Positive Rate Distribution' class="center"></iframe>
+										<figcaption>Figure 1.Choropleth map showing cumulative covid positive rate in NYC.</figcaption>
+									</figure>
+
+
+								</div>
+
+							</div>
+						</section>
+
+						<!-- Data Acquisition -->
+						<section id="data" class="main">
+							<div class="spotlight">
+								<div class="content">
+									<header class="major">
+										<h2>Data Acquisition</h2>
+									</header>
+
+
+									<dl>
+										<dt>Covid data</dt>
+										<dd>
+											NYC Covid-19 data is essential as the final target to understand.
+											Covid data can be accessed through the website of NYC Department of Health and Mental Hygiene.
+											The department has a github account to update the data daily: <a href="#">https://github.com/nychealth/coronavirus-data</a>.
+											The data show covid positive rates calculated by the cumulative positive cases divided by total tested cases in each of 177 postal code area. Data was collected until August 2020.
+										</dd>
+									</dl>
+									<dl>
+										<dt>Demographic data</dt>
+										<dd>Population density could possibly cause different virus spreading rates. Also, since different age groups have their different social activity habits and show quite different reaction to the pandemic, it's interesting to know if the age percentage has played a role to cause different covid positive rates. The information can be found on <a href="#">data.census.gov</a> and was collected from American Community Survey 2018.</dd>
+										<br />
+										<dd>
+											<code>uszipcode</code> is a python zipcode database. Information like the area of the post code areas, latitude and longitude can be easily loaded from the library. The library also offers economic information like median household income, which can also be used in our analysis.
+										</dd>
+									</dl>
+									<dl>
+										<dt>Venue location data</dt>
+										<dd>For the venue data, first, I am curious to know if more restaurants in an area is related to a higher covid rate. Second, different types and different quantities of venues can be potential reasons to cause higher or lower rates. With the venue information from <code>Foursquare</code>, we can cluster the venues based on zip code, and see if the cluster is related to different covid rates.</dd>
+									</dl>
+
+
+								</div>
+
+							</div>
+						</section>
+
+						<!-- Demographic Analysis -->
+						<section id="exploratory" class="main">
+							<header class="major">
+								<h2>Demographic Analysis</h2>
+							</header>
+							<p>
+								Four interesting demographic factors have been chosen. They are <b>population density</b> calculated as population per square mile, <b>median household income</b>, <b>percentage of youth people</b> who are younger than 18 years old
+								and <b>percentage of senior people</b> who are older than 65 years old. Higher people density means a higher chance to be infected in the community.
+								higher income promises better and enough personal protective equipments, it also means a higher chance to stay at or move to a safe place rather than risk oneself to work outside.
+								Percentage of youth and senior are both interesting factors to consider. Kids are likely to have more social acitivities and senior people are more vulnerable to virus. How these factors are related to Covid positive rates can be easily learnt by simple linear regression.
+							</p>
+							<dl>
+								<dt>Correlation Matrix of Features</dt>
+								<dd>
+									Correlation between each pair of demographic features has been checked. No clear correlation is appeared except for the pair of <b>income</b> and <b>percentage of Youth</b> with a correlation coefficiency of -0.41. Since data are only used for exploratory analysis, multicollinearity is not an issue, and both features are kept.
+									<div style="text-align: center">
+										<img src="images/corr_2.png">
+										<figcaption>Figure 2. Correlation matrix of demographic features.</figcaption>
+									</div>
+									<br />
+								</dd>
+							</dl>
+
+
+
+							<dl>
+								<dt>Correlation between demographic factors and Covid rate</dt>
+								<dd>
+									Simple linear regression on Covid positive rate with each of the demographic factors has been done (Figure 3).
+									<br />
+									<div style="text-align: center">
+									<img src="images/regressions.png" width='88%' height='500px' title='Linear Regression' class="center">
+									<figcaption>
+										Figure 3. Simple linear regression of Covid rate on demographic facotrs. The fitting for population density has an r-squared value of 0.19, correlation coefficient of -0.44, p value of 1.10e<sup>-9</sup>.
+										The fitting for median income has an r-squared value of 0.29, correlation coefficient of -0.53, p value of 1.61e<sup>-14</sup>.
+										The fitting for percentage of youth has an r-squared value of 0.36, correlation coefficient of 0.60, p value of 8.11e<sup>-19</sup>.
+										The fitting for percentage of senior has an r-squared value of 2.04e<sup>-06</sup>, correlation coefficient of 0.001, p value of 0.98.
+									</figcaption>
+									</div>
+									
+								</dd>
+							</dl>
+
+							
+							<p>
+							Population density and hosehold income are both negatively correlated with Covid rate. Although areas with midium level of income don't show a simple type of Covid rate, extreme poor or rich areas do show the trend: 
+							areas with highest household income (higher than $90,000), same as our intuition, all have lower Covid rates,
+							and areas with lowest income (lower than $20,000) all have high Covid rate. 
+							As for population density, how crowded areas have lower Covid rate is hard to explain to me.
+							<br /> 
+							  
+							It's also interesting to see that the percentage of Senior has no contribution to covid rates, while youth ratio is positive correlated with Covid rates. 
+							A main possible cause of the positive rate difference between two groups can be their social activity modes. 
+							Young people have a higher possibility to go to a bar, a restaurant or a movie theater with a group of friends, while senior people are most likely to have relative quiet activities with their families in a relative private spot. 
+							More vulnerable to virus does not make senior people more easily to get the disease, but just after getting the virus, their possibility to have severe symptoms is higher. Also, young people, as students, also need to go to school. 
+							This situation also put them under a higher risk to get infected. </p>
+
+
+
+
+						</section>
+
+						<!-- Venue Type Analysis -->
+						<section id="clustering" class="main">
+							<header class="major">
+								<h2>Venue Type Analysis</h2>
+								<p>
+									Since demographic data are not fully related to Covid rate variation, types of community could be another possible explanation. To find out the type of the area,
+									business venue information was introduced from <a href="foursquare.com"></a> to figure out the type of the area.
+								</p>
+
+								<dl>
+									<dt>Restaurant Density</dt>
+									<dd>
+										Before considering all different types of venues,
+										restaurant information was first checked as it is the most common venue type (Figure 4).
+										<br />
+										<div style="text-align: center">
+											<img src="images/restaurant.png" width='50%' height='300px' title='restaurant' class="center">
+											<figcaption>Fig.4 Linear regression of Covid rate on restaurant density.</figcaption>
+										</div>
+										Surprisingly, areas with higher density of restaurants actually have lower Covid rates.
+										Since this restaurant category includes all different types of places, from bar to donut shop, and from fast food restaurant to french restaurants,
+										it looks important to dig deeper to check different types of venues, including different types of restaurants.
+									</dd>
+								</dl>
+
+
+								<dl>
+									<dt>Cluster the areas based on the venues</dt>
+									<dd>
+										From Foursquare, 451 types of venues were found for NYC.
+										I manually combined the venue types into 16 categories, and ignored the venues fewer than 12 in total. Here are the 16 major venues considered:
+										restaurant, fastFood, bar, cafe, retail store, outdoor places, indoor gym, kids place, convenient store, grocery, lifestyle store, transportation, art and music, facility and hotel.
+									</dd>
+									<dd>
+										<br />
+										To find out different types of the areas, k-means clustering method was used to cluster different types of neibourhood (figure 5). k = 5 was determined by elbow method.
+										<br />
+										<div style="text-align: center">
+											<img src="images/Clusters.png" width='63%' height='400px' title='Clusters' class="center">
+											<figcaption>Figure 5. Covid rates for different clusters.</figcaption>
+										</div>
+										<br />
+										While three of the clusters have wide Covid distribution, the first two clusters reach opposite trends. Histogram was also plotted for these two clusters (Figure 6)
+
+									</dd>
+									<br />
+									<dd>
+										<div style="text-align: center">
+											<img src="images/ClusterCount.png" width='65%' height='400px' title='ClusterCount' class="center">
+											<figcaption>Figure 6. Area counts for cluster 1 and 2.</figcaption>
+										</div>
+									</dd>
+								</dl>
+
+							</header>
+
+							<br />
+
+							<dl>
+								<dt>Venue type comparison</dt>
+								<dd>
+									Average venue per 10,000 people has been calculated for each area in cluster 1 and 2 (Figure 7).
+									<br />
+									<div style="text-align: center">
+										<img src="images/VenueTypeCount.png" width='100%' height='400px' title='Venue comparison' class="center">
+										<figcaption>Figure 7. Venue type comparison.</figcaption>
+									</div>
+									</dd>
+									<br />
+								<dd>
+									Based on the venue combination, with more fast food, kids place, grocery, convenient store, necessities store and transportation places,
+									the areas in the high Covid rate cluster seem most likely to be mature residential areas, while the low Covid rate cluster has more art museums, music centers, hotels and bars,
+									which are more likely seen in commercial areas. 
+								</dd>
+								<dd>
+									Furthermore, when restaurants are further broken down into fast foord, cafe and bar, about three times of the fast food places are seen in high Covid rate cluster
+									than the low Covid rate cluster. While cafes and serious restaurants counts are similar for both clusters, low Covid areas also have twice of the bars. 
+									The variation of different types of places under the same category of <b>general restaurant</b> could possiblely explain the trend in figure 4.
+								</dd>
+							</dl>
+
+
+							
+
+						</section>
+
+						<!-- Conclusion -->
+						<section id="conclustion" class="main">
+							<header class="major">
+								<h2>Conclusion</h2>
+								<p>
+									This study briefly analyzed some possible covid correlated factors in the zip code areas in New York City. In the project, demographic factors and venue information have been used to explain Covid-19 rate variation in NYC.
+									Single demographic factor can hardly explain the phenomenon, however, after clustering the regions based on the venue types, the features of high and low Covid areas were found.
+									It seems like the residential areas are more likely to have a high Covid positive rate, while commercial areas the rates are lower. However we clearly know that the data is showing correlation but not causality.
+									The zip code area shows only people's registered residential region but not the place they have daily activities. Lower Covid rates in commercial areas doesn't mean the areas are safer: people who are sick could possibly
+									travel to these areas for work, or tourists who are detected positive here may not get counted.
+									Predictions with ML models could be fun to do if the area size is bigger, however, with so many features, 177 is too small to make any split to train the model. So I will just leave it here for now<br />
+
+								</p>
+							</header>
+
+						</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>Lexi Sun</h2>
+							<p>Seeking a data scientist position to apply my training and experience in data science as a biophysicist to solve problems in industrial settings. </p>
+						</section>
+						<section>
+							<dl class="alt">
+								<h2>INFO </h2>
+								<dt>Phone</dt>
+								<dd>(718) 839-0322</dd>
+								<dt>Email</dt>
+								<dd><a href="#">sunlexi1122@gmail.com</a></dd>
+							</dl>
+						</section>
+						
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
