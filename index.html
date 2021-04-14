@@ -51,7 +51,7 @@
 										Positive Covid rates vary greatly among different areas in New York City(Figure 1). The variation cannot be explained easily by looking at map. With demographic data together with business venue type information, I learned how these features are related to the cumulative Covid positive rate in the area.
 									</p>
 									<figure align="center">
-										<iframe src='images/nyc_covid_map.html' width='80%' height='500px' title='Covid Positive Rate Distribution' class="center"></iframe>
+										<iframe src='images/nyc_covid_map.html' width='700px' height='500px' title='Covid Positive Rate Distribution' class="center"></iframe>
 										<figcaption>Figure 1.Choropleth map showing cumulative covid positive rate in NYC.</figcaption>
 									</figure>
 
@@ -129,7 +129,7 @@
 									Simple linear regression on Covid positive rate with each of the demographic factors has been done (Figure 3).
 									<br />
 									<div style="text-align: center">
-									<img src="images/regressions.png" width='88%' height='500px' title='Linear Regression' class="center">
+									<img src="images/regressions.png" width='800px' height='500px' title='Linear Regression' class="center">
 									<figcaption>
 										Figure 3. Simple linear regression of Covid rate on demographic facotrs. The fitting for population density has an r-squared value of 0.19, correlation coefficient of -0.44, p value of 1.10e<sup>-9</sup>.
 										The fitting for median income has an r-squared value of 0.29, correlation coefficient of -0.53, p value of 1.61e<sup>-14</sup>.
@@ -176,7 +176,7 @@
 										restaurant information was first checked as it is the most common venue type (Figure 4).
 										<br />
 										<div style="text-align: center">
-											<img src="images/restaurant.png" width='50%' height='300px' title='restaurant' class="center">
+											<img src="images/restaurant.png"  title='restaurant' class="center">
 											<figcaption>Fig.4 Linear regression of Covid rate on restaurant density.</figcaption>
 										</div>
 										Surprisingly, areas with higher density of restaurants actually have lower Covid rates.
@@ -198,7 +198,7 @@
 										To find out different types of the areas, k-means clustering method was used to cluster different types of neibourhood (figure 5). k = 5 was determined by elbow method.
 										<br />
 										<div style="text-align: center">
-											<img src="images/Clusters.png" width='63%' height='400px' title='Clusters' class="center">
+											<img src="images/Clusters.png"  title='Clusters' class="center">
 											<figcaption>Figure 5. Covid rates for different clusters.</figcaption>
 										</div>
 										<br />
@@ -208,7 +208,7 @@
 									<br />
 									<dd>
 										<div style="text-align: center">
-											<img src="images/ClusterCount.png" width='65%' height='400px' title='ClusterCount' class="center">
+											<img src="images/ClusterCount.png"  title='ClusterCount' class="center">
 											<figcaption>Figure 6. Area counts for cluster 1 and 2.</figcaption>
 										</div>
 									</dd>
@@ -224,7 +224,7 @@
 									Average venue per 10,000 people has been calculated for each area in cluster 1 and 2 (Figure 7).
 									<br />
 									<div style="text-align: center">
-										<img src="images/VenueTypeCount.png" width='100%' height='400px' title='Venue comparison' class="center">
+										<img src="images/VenueTypeCount.png" width='900px' height='400px' title='Venue comparison' class="center">
 										<figcaption>Figure 7. Venue type comparison.</figcaption>
 									</div>
 									</dd>
