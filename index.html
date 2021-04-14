@@ -93,6 +93,8 @@
 									</dl>
 
 
+
+
 								</div>
 
 							</div>
@@ -112,7 +114,7 @@
 							<dl>
 								<dt>Correlation Matrix of Features</dt>
 								<dd>
-									Correlation between each pair of demographic features has been checked. No clear correlation is appeared except for the pair of <b>income</b> and <b>percentage of Youth</b> with a correlation coefficiency of -0.41. Since data are only used for exploratory analysis, multicollinearity is not an issue, and both features are kept.
+									Correlation between each pair of demographic features has been checked to avoid multicollinearity.
 									<div style="text-align: center">
 										<img src="images/corr_2.png">
 										<figcaption>Figure 2. Correlation matrix of demographic features.</figcaption>
@@ -125,37 +127,47 @@
 
 							<dl>
 								<dt>Correlation between demographic factors and Covid rate</dt>
-								<dd>
+								
 									Simple linear regression on Covid positive rate with each of the demographic factors has been done (Figure 3).
 									<br />
 									<div style="text-align: center">
-									<img src="images/regressions.png" width='800px' height='500px' title='Linear Regression' class="center">
-									<figcaption>
-										Figure 3. Simple linear regression of Covid rate on demographic facotrs. The fitting for population density has an r-squared value of 0.19, correlation coefficient of -0.44, p value of 1.10e<sup>-9</sup>.
-										The fitting for median income has an r-squared value of 0.29, correlation coefficient of -0.53, p value of 1.61e<sup>-14</sup>.
-										The fitting for percentage of youth has an r-squared value of 0.36, correlation coefficient of 0.60, p value of 8.11e<sup>-19</sup>.
-										The fitting for percentage of senior has an r-squared value of 2.04e<sup>-06</sup>, correlation coefficient of 0.001, p value of 0.98.
-									</figcaption>
+										<img src="images/regressions.png" width='800px' height='500px' title='Linear Regression' class="center">
+										<figcaption>
+											Figure 3. Simple linear regression of Covid rate on demographic facotrs. The fitting for population density has the r-squared value of 0.19, the correlation coefficient of -0.44, the p value of 1.10e<sup>-9</sup>.
+											The fitting for median income has the r-squared value of 0.29, the correlation coefficient of -0.53, the p value of 1.61e<sup>-14</sup>.
+											The fitting for percentage of youth has the r-squared value of 0.36, the correlation coefficient of 0.60, the p value of 8.11e<sup>-19</sup>.
+											The fitting for percentage of senior has the r-squared value of 2.04e<sup>-06</sup>, the correlation coefficient of 0.001, the p value of 0.98.
+										</figcaption>
 									</div>
-									
+
+								</dd>
+
+
+
+									<dd>
+										<br />
+										Population density and hosehold income are both negatively correlated with Covid rate. Although areas with midium level of income don't show a simple type of Covid rate, extreme poor or rich areas do show the trend:
+										areas with highest household income (higher than $90,000), same as our intuition, all have lower Covid rates,
+										and areas with lowest income (lower than $20,000) all have high Covid rate.
+										As for population density, how crowded areas have lower Covid rate is hard to explain to me.
+										</dd>
+
+										<dd>
+											<br />
+											It's also interesting to see that the percentage of Senior has no contribution to covid rates, while youth ratio is positive correlated with Covid rates.
+											A main possible cause of the positive rate difference between two groups can be their social activity modes.
+											Young people have a higher possibility to go to a bar, a restaurant or a movie theater with a group of friends, while senior people are most likely to have relative quiet activities with their families in a relative private spot.
+											More vulnerable to virus does not make senior people more easily to get the disease, but just after getting the virus, their possibility to have severe symptoms is higher. Also, young people, as students, also need to go to school.
+											This situation also put them under a higher risk to get infected.
+										</dd>
+							</dl>
+							<dl>
+								<dt>Multiple Regression Model</dt>
+								<dd>
+									When all the listed demographic features are considered to predict Covid positive rates, scaling was done to standardize the featuers. The coefficients of the fittings are: -1.29 for population density,
+									-1.50 for income,  1.79 for percentage of kids and 0.53 for the percentage of senior. The R-squared of the fitting is 0.57.
 								</dd>
 							</dl>
-
-							
-							<p>
-							Population density and hosehold income are both negatively correlated with Covid rate. Although areas with midium level of income don't show a simple type of Covid rate, extreme poor or rich areas do show the trend: 
-							areas with highest household income (higher than $90,000), same as our intuition, all have lower Covid rates,
-							and areas with lowest income (lower than $20,000) all have high Covid rate. 
-							As for population density, how crowded areas have lower Covid rate is hard to explain to me.
-							<br /> 
-							  
-							It's also interesting to see that the percentage of Senior has no contribution to covid rates, while youth ratio is positive correlated with Covid rates. 
-							A main possible cause of the positive rate difference between two groups can be their social activity modes. 
-							Young people have a higher possibility to go to a bar, a restaurant or a movie theater with a group of friends, while senior people are most likely to have relative quiet activities with their families in a relative private spot. 
-							More vulnerable to virus does not make senior people more easily to get the disease, but just after getting the virus, their possibility to have severe symptoms is higher. Also, young people, as students, also need to go to school. 
-							This situation also put them under a higher risk to get infected. </p>
-
-
 
 
 						</section>
@@ -177,7 +189,8 @@
 										<br />
 										<div style="text-align: center">
 											<img src="images/restaurant.png"  title='restaurant' class="center">
-											<figcaption>Fig.4 Linear regression of Covid rate on restaurant density.</figcaption>
+											<figcaption>Fig.4 Linear regression of Covid rate on restaurant density. 
+											The fitting has an r-squared value of 0.44, correlation coefficient of -0.66, p value of 1.20e<sup>-23</sup>.</figcaption>
 										</div>
 										Surprisingly, areas with higher density of restaurants actually have lower Covid rates.
 										Since this restaurant category includes all different types of places, from bar to donut shop, and from fast food restaurant to french restaurants,
@@ -195,10 +208,10 @@
 									</dd>
 									<dd>
 										<br />
-										To find out different types of the areas, k-means clustering method was used to cluster different types of neibourhood (figure 5). k = 5 was determined by elbow method.
+										To find out different types of the areas, k-means clustering method was used to cluster different types of neighborhood (figure 5). k = 5 was determined by elbow method.
 										<br />
 										<div style="text-align: center">
-											<img src="images/Clusters.png"  title='Clusters' class="center">
+											<img src="images/Clusters.png" title='Clusters' class="center">
 											<figcaption>Figure 5. Covid rates for different clusters.</figcaption>
 										</div>
 										<br />
@@ -252,7 +265,7 @@
 								<h2>Conclusion</h2>
 								<p>
 									This study briefly analyzed some possible covid correlated factors in the zip code areas in New York City. In the project, demographic factors and venue information have been used to explain Covid-19 rate variation in NYC.
-									Single demographic factor can hardly explain the phenomenon, however, after clustering the regions based on the venue types, the features of high and low Covid areas were found.
+									Demographic factor can not fully explain the phenomenon, however, after clustering the regions based on the venue types, the features of high and low Covid areas were found.
 									It seems like the residential areas are more likely to have a high Covid positive rate, while commercial areas the rates are lower. However we clearly know that the data is showing correlation but not causality.
 									The zip code area shows only people's registered residential region but not the place they have daily activities. Lower Covid rates in commercial areas doesn't mean the areas are safer: people who are sick could possibly
 									travel to these areas for work, or tourists who are detected positive here may not get counted.
